@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.csvbuildernew.CSVBuilderException;
+import com.google.gson.Gson;
+import com.ipl_analysis.POJO.*;
 
 public class IPLLeagueAnalyserTest {
 	IPLLeagueAnalyser iplLeagueAnalyser;
@@ -35,7 +37,7 @@ public class IPLLeagueAnalyserTest {
 	}
 
 	/**
-	 *  TC to check loading of most wkts csv
+	 * TC to check loading of most wkts csv
 	 */
 	@Test
 	public void givenWKTSFileData_IfMatchNumberOfRecords_ShouldReturnTrue() {
@@ -47,5 +49,19 @@ public class IPLLeagueAnalyserTest {
 		} catch (CSVBuilderException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * TC to check sorted data by batting average
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOnAverage_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
+		String sortedCensusData = iplLeagueAnalyser.getSortedDataByAverage();
+		CSVMostRuns[] censusCSV = new Gson().fromJson(sortedCensusData, CSVMostRuns[].class);
+		assertEquals(83.2, censusCSV[0].avg, 0.0);
 	}
 }
