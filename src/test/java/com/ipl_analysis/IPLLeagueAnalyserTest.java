@@ -91,8 +91,12 @@ public class IPLLeagueAnalyserTest {
 		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
 		String sortBasedOnSixAndFours = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.SIX_AND_FOURS);
 		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnSixAndFours, CSVMostRuns[].class);
+		for (int i = 0; i < 5; i++) {
+			System.out.println(batsmenArray[i]);
+		}
 		assertEquals("Andre Russell", batsmenArray[0].playerName);
 	}
+
 
 	/**
 	 * TC to check sorting by strike rate and boundries
@@ -101,12 +105,14 @@ public class IPLLeagueAnalyserTest {
 	 * @throws CSVBuilderException
 	 */
 	@Test
-	public void givenBattingCsvFile_AfterSortingBasedOnSRAndBoundries_ShouldReturnFirstBatsman()
+	public void givenCricketLeagueCsvFile_AfterSortingBasedOnStrikeRate_WithRespectTo6sAnd4s_IfReturnsCorrectBatsman_ShouldReturnTrue()
 			throws IOException, CSVBuilderException {
+
 		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
-		String sortBasedOnSixAndFours = iplLeagueAnalyser
-				.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE.SIX_AND_FOURS);
-		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnSixAndFours, CSVMostRuns[].class);
-		assertEquals("Andre Russell", batsmenArray[0].playerName);
+		String sortBasedOnAvg = iplLeagueAnalyser
+				.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE_WITH_BOUNDRIES);
+		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvg, CSVMostRuns[].class);
+		assertEquals("Ishant Sharma", batsmenArray[0].playerName);
+
 	}
 }

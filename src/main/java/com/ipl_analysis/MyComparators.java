@@ -15,11 +15,19 @@ public class MyComparators {
 			put(IPLLeagueAnalyser.CompareBasedOn.AVERAGE,
 					Comparator.comparing(iplBatsmanData -> iplBatsmanData.avg, Comparator.reverseOrder()));
 			put(IPLLeagueAnalyser.CompareBasedOn.SIX_AND_FOURS, this.getSixAndFourComparator());
+			put(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE_WITH_BOUNDRIES, this.getSixAndFourSRComparator());
 		}
 
 		private Comparator<CSVMostRuns> getSixAndFourComparator() {
 			return Comparator.comparing(iplBatsmanData -> (iplBatsmanData.fours * 4) + (iplBatsmanData.sixes * 6),
 					Comparator.reverseOrder());
 		}
+
+		private Comparator<CSVMostRuns> getSixAndFourSRComparator() {
+			return Comparator
+					.comparing(iplBatsmanData -> ((((iplBatsmanData.fours * 4) + (iplBatsmanData.sixes * 6)) * 100)
+							/ iplBatsmanData.ballsFaced), Comparator.reverseOrder());
+		}
 	};
+
 }

@@ -18,7 +18,7 @@ import com.ipl_analysis.POJO.*;
 public class IPLLeagueAnalyser {
 
 	public enum CompareBasedOn {
-		AVERAGE, STRIKE_RATE, SIX_AND_FOURS
+		AVERAGE, STRIKE_RATE, SIX_AND_FOURS, STRIKE_RATE_WITH_BOUNDRIES
 	}
 
 	List<CSVMostRuns> csvRunsList = null;
@@ -66,4 +66,11 @@ public class IPLLeagueAnalyser {
 		String sortedString = new Gson().toJson(sortedList);
 		return sortedString;
 	}
+	
+//	public int sortBasedOnNew(int i) {
+//		ArrayList<CSVMostRuns> sortedList = this.csvRunsList.stream()
+//				.sorted(MyComparators.comparators.get(i)).collect(toCollection(ArrayList::new));
+//		String sortedString = new Gson().toJson(sortedList);
+//		return Integer.parseInt(sortedString);
+//	}
 }
