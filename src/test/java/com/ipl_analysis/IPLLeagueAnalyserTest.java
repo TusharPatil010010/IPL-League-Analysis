@@ -93,4 +93,20 @@ public class IPLLeagueAnalyserTest {
 		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnSixAndFours, CSVMostRuns[].class);
 		assertEquals("Andre Russell", batsmenArray[0].playerName);
 	}
+
+	/**
+	 * TC to check sorting by strike rate and boundries
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenBattingCsvFile_AfterSortingBasedOnSRAndBoundries_ShouldReturnFirstBatsman()
+			throws IOException, CSVBuilderException {
+		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
+		String sortBasedOnSixAndFours = iplLeagueAnalyser
+				.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE.SIX_AND_FOURS);
+		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnSixAndFours, CSVMostRuns[].class);
+		assertEquals("Andre Russell", batsmenArray[0].playerName);
+	}
 }
