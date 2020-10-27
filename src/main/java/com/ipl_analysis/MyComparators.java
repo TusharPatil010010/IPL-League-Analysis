@@ -14,7 +14,12 @@ public class MyComparators {
 					Comparator.comparing(iplBatsmanData -> iplBatsmanData.strikeRate, Comparator.reverseOrder()));
 			put(IPLLeagueAnalyser.CompareBasedOn.AVERAGE,
 					Comparator.comparing(iplBatsmanData -> iplBatsmanData.avg, Comparator.reverseOrder()));
+			put(IPLLeagueAnalyser.CompareBasedOn.SIX_AND_FOURS, this.getSixAndFourComparator());
+		}
+
+		private Comparator<CSVMostRuns> getSixAndFourComparator() {
+			return Comparator.comparing(iplBatsmanData -> (iplBatsmanData.fours * 4) + (iplBatsmanData.sixes * 6),
+					Comparator.reverseOrder());
 		}
 	};
-
 }

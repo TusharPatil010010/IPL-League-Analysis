@@ -18,7 +18,7 @@ import com.ipl_analysis.POJO.*;
 public class IPLLeagueAnalyser {
 
 	public enum CompareBasedOn {
-		AVERAGE, STRIKE_RATE
+		AVERAGE, STRIKE_RATE, SIX_AND_FOURS
 	}
 
 	List<CSVMostRuns> csvRunsList = null;
@@ -54,6 +54,12 @@ public class IPLLeagueAnalyser {
 		return csvWktsList.size();
 	}
 
+	/**
+	 * Sorts according to given field
+	 * 
+	 * @param comparingField
+	 * @return
+	 */
 	public String sortBasedOn(CompareBasedOn comparingField) {
 		ArrayList<CSVMostRuns> sortedList = this.csvRunsList.stream()
 				.sorted(MyComparators.comparators.get(comparingField)).collect(toCollection(ArrayList::new));
