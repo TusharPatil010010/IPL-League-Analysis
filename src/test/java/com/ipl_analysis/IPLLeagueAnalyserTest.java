@@ -13,8 +13,8 @@ import com.ipl_analysis.POJO.*;
 
 public class IPLLeagueAnalyserTest {
 	IPLLeagueAnalyser iplLeagueAnalyser;
-	private static final String MOST_RUNS_CSV = "\"C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\MostRuns.csv\"";
-	private static final String MOST_WKTS_CSV = "\"C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\MostWkts.csv\"";
+	private static final String MOST_RUNS_CSV = "C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\MostRuns.csv";
+	private static final String MOST_WKTS_CSV = "C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\MostWkts.csv";
 
 	@Before
 	public void setUp() {
@@ -60,8 +60,22 @@ public class IPLLeagueAnalyserTest {
 	@Test
 	public void givenRunsData_WhenSortedOnAverage_ShouldReturnTrue() throws IOException, CSVBuilderException {
 		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
-		String sortedCensusData = iplLeagueAnalyser.getSortedDataByAverage();
+		String sortedCensusData = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.AVERAGE);
 		CSVMostRuns[] censusCSV = new Gson().fromJson(sortedCensusData, CSVMostRuns[].class);
 		assertEquals(83.2, censusCSV[0].avg, 0.0);
+	}
+
+	/**
+	 * TC to check sorted data by strike rate
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOnSR_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
+		String sortedCSVData = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE);
+		CSVMostRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVMostRuns[].class);
+		assertEquals(333.33f, iplCSV[0].strikeRate, 0.0);
 	}
 }
