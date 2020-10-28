@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.csvbuildernew.CSVBuilderException;
 import com.google.gson.Gson;
 import com.ipl_analysis.POJO.*;
+import com.ipl_analysis.PlayerType;
 
 public class IPLLeagueAnalyserTest {
 	IPLLeagueAnalyser iplLeagueAnalyser;
@@ -23,15 +24,15 @@ public class IPLLeagueAnalyserTest {
 
 	/**
 	 * TC to check loading of most runs csv
+	 * 
+	 * @throws IPLLeagueAnalyserException
 	 */
 	@Test
 	public void givenFileData_IfMatchNumberOfRecords_ShouldReturnTrue() {
 		try {
-			int count = iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
+			int count = iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
 			assertEquals(101, count);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CSVBuilderException e) {
+		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
 		}
 	}
@@ -42,11 +43,9 @@ public class IPLLeagueAnalyserTest {
 	@Test
 	public void givenWKTSFileData_IfMatchNumberOfRecords_ShouldReturnTrue() {
 		try {
-			int count = iplLeagueAnalyser.loadBowlingData(MOST_WKTS_CSV);
+			int count = iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
 			assertEquals(99, count);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CSVBuilderException e) {
+		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
 		}
 	}
@@ -59,10 +58,15 @@ public class IPLLeagueAnalyserTest {
 	 */
 	@Test
 	public void givenRunsData_WhenSortedOnAverage_ShouldReturnTrue() throws IOException, CSVBuilderException {
-		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
-		String sortedCensusData = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.AVERAGE);
-		CSVMostRuns[] censusCSV = new Gson().fromJson(sortedCensusData, CSVMostRuns[].class);
-		assertEquals(83.2, censusCSV[0].avg, 0.0);
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
+			String sortedCensusData = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.AVERAGE);
+			CSVMostRuns[] censusCSV = new Gson().fromJson(sortedCensusData, CSVMostRuns[].class);
+			assertEquals(83.2, censusCSV[0].avg, 0.0);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -73,10 +77,16 @@ public class IPLLeagueAnalyserTest {
 	 */
 	@Test
 	public void givenRunsData_WhenSortedOnSR_ShouldReturnTrue() throws IOException, CSVBuilderException {
-		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
-		String sortedCSVData = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE);
-		CSVMostRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVMostRuns[].class);
-		assertEquals(333.33f, iplCSV[0].strikeRate, 0.0);
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
+			String sortedCSVData = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.STRIKE_RATE);
+			CSVMostRuns[] batsmenArray = new Gson().fromJson(sortedCSVData, CSVMostRuns[].class);
+			System.out.println(batsmenArray[0]);
+			assertEquals("Andre Russell", batsmenArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -88,10 +98,15 @@ public class IPLLeagueAnalyserTest {
 	@Test
 	public void givenBattingCsvFile_AfterSortingBasedOnBoundaries_ShouldReturnFirstBatsman()
 			throws IOException, CSVBuilderException {
-		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
-		String sortBasedOnSixAndFours = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.SIX_AND_FOURS);
-		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnSixAndFours, CSVMostRuns[].class);
-		assertEquals("Andre Russell", batsmenArray[0].playerName);
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
+			String sortBasedOnSixAndFours = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.SIX_AND_FOURS);
+			CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnSixAndFours, CSVMostRuns[].class);
+			assertEquals("Andre Russell", batsmenArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -104,11 +119,16 @@ public class IPLLeagueAnalyserTest {
 	public void givenCricketLeagueCsvFile_AfterSortingBySRAndThenWithBoundries_shouldReturnFirstBatsman()
 			throws IOException, CSVBuilderException {
 
-		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
-		String sortBasedOnAvgAndBoundries = iplLeagueAnalyser
-				.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE_WITH_BOUNDRIES);
-		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvgAndBoundries, CSVMostRuns[].class);
-		assertEquals("Ishant Sharma", batsmenArray[0].playerName);
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
+			String sortBasedOnAvgAndBoundries = iplLeagueAnalyser
+					.sortBasedOn(MyComparators.CompareBasedOn.STRIKE_RATE_WITH_BOUNDRIES);
+			CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvgAndBoundries, CSVMostRuns[].class);
+			assertEquals("Ishant Sharma", batsmenArray[0].playerName);
+
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -119,13 +139,16 @@ public class IPLLeagueAnalyserTest {
 	 * @throws CSVBuilderException
 	 */
 	@Test
-	public void givenMostRunsCSV_AfterSortingByAvgThenBySR_shouldReturnFirstBatsman()
-			throws IOException, CSVBuilderException {
-
-		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
-		String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.AVG_THEN_SR);
-		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvg, CSVMostRuns[].class);
-		assertEquals("MS Dhoni", batsmenArray[0].playerName);
+	public void givenMostRunsCSV_AfterSortingByAvgThenBySR_shouldReturnFirstBatsman() {
+		
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
+			String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.AVG_THEN_SR);
+			CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvg, CSVMostRuns[].class);
+			assertEquals("MS Dhoni", batsmenArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -136,13 +159,32 @@ public class IPLLeagueAnalyserTest {
 	 * @throws CSVBuilderException
 	 */
 	@Test
-	public void givenMostRunsCSV_AfterSortingByRunsThenAvg_shouldReturnFirstBatsman()
-			throws IOException, CSVBuilderException {
+	public void givenMostRunsCSV_AfterSortingByRunsThenAvg_shouldReturnFirstBatsman() {
 
-		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
-		String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.RUNS_THEN_AVG);
-		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvg, CSVMostRuns[].class);
-		assertEquals(692, batsmenArray[0].runs);
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
+			String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.RUNS_THEN_AVG);
+			CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvg, CSVMostRuns[].class);
+			assertEquals("David Warner ", batsmenArray[0].playerName);
 
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * TC to check the sorting by bowling average
+	 */
+	@Test
+	public void givenCricketLeagueCsvFile_AfterSortingBasedBowlingAvg_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
+			String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.BOWLING_AVG);
+			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnAvg, CSVMostWkts[].class);
+			assertEquals("Anukul Roy", bowlerArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
 	}
 }

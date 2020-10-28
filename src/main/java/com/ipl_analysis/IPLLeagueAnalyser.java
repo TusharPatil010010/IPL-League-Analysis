@@ -5,53 +5,36 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import static java.util.stream.Collectors.toCollection;
 
 import com.csvbuildernew.CSVBuilderException;
 import com.csvbuildernew.CSVBuilderFactory;
 import com.csvbuildernew.ICSVBuilder;
 import com.google.gson.Gson;
+import com.ipl_analysis.FileLoaders.CsvFileLoader;
+import com.ipl_analysis.FileLoaders.FileLoaderFactory;
 import com.ipl_analysis.POJO.*;
 
 public class IPLLeagueAnalyser {
 
-	public enum CompareBasedOn {
-		AVERAGE, STRIKE_RATE, SIX_AND_FOURS, STRIKE_RATE_WITH_BOUNDRIES, AVG_THEN_SR, RUNS_THEN_AVG
+	private PlayerType playerType;
+	public static Map<String, IplPlayer> playersList;
+
+	public IPLLeagueAnalyser() {
+		this.playersList = new HashMap<>();
 	}
 
-	List<CSVMostRuns> csvRunsList = null;
-	List<CSVMostWkts> csvWktsList = null;
-
-	/**
-	 * Load batting data
-	 * 
-	 * @param CSVFile
-	 * @return
-	 * @throws IOException
-	 * @throws CSVBuilderException
-	 */
-	public int loadBattingData(String CSVFile) throws IOException, CSVBuilderException {
-		Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
-		ICSVBuilder<CSVMostRuns> csvBuilder = CSVBuilderFactory.createCSVBuilder();
-		csvRunsList = csvBuilder.getCSVFileList(reader, CSVMostRuns.class);
-		return csvRunsList.size();
-	}
-
-	/**
-	 * Load bowling data
-	 * 
-	 * @param CSVFile
-	 * @return
-	 * @throws IOException
-	 * @throws CSVBuilderException
-	 */
-	public int loadBowlingData(String CSVFile) throws IOException, CSVBuilderException {
-		Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
-		ICSVBuilder<CSVMostWkts> csvBuilder = CSVBuilderFactory.createCSVBuilder();
-		csvWktsList = csvBuilder.getCSVFileList(reader, CSVMostWkts.class);
-		return csvWktsList.size();
+	public int loadDataFromCsv(PlayerType playerType, String csvFilePath) throws IPLLeagueAnalyserException {
+		this.playerType = playerType;
+		CsvFileLoader csvFileLoader = FileLoaderFactory.getAdapter(playerType);
+		this.playersList = csvFileLoader.loadCsv(csvFilePath);
+		return playersList.size();
 	}
 
 	/**
@@ -60,10 +43,22 @@ public class IPLLeagueAnalyser {
 	 * @param comparingField
 	 * @return
 	 */
-	public String sortBasedOn(IPLLeagueAnalyser.CompareBasedOn comparingField) {
-		ArrayList<CSVMostRuns> sortedList = this.csvRunsList.stream()
-				.sorted(MyComparators.comparators.get(comparingField)).collect(toCollection(ArrayList::new));
-		String sortedString = new Gson().toJson(sortedList);
+	public String sortBasedOn(MyComparators.CompareBasedOn comparingField) {
+		MyComparators compareWith = new MyComparators();
+		ArrayList<IplPlayer> sortedList = this.playersList.values().stream()
+				.sorted(compareWith.comparators.get(comparingField)).collect(toCollection(ArrayList::new));
+		ArrayList sortedDatatoList = new ArrayList<>();
+		if (this.playerType.equals(PlayerType.BATSMAN)) {
+			for (IplPlayer batsman : sortedList) {
+				sortedDatatoList.add(batsman.getBatsmanData());
+			}
+		}
+		if (this.playerType.equals(PlayerType.BOWLER)) {
+			for (IplPlayer bowler : sortedList) {
+				sortedDatatoList.add(bowler.getBowlerData());
+			}
+		}
+		String sortedString = new Gson().toJson(sortedDatatoList);
 		return sortedString;
 	}
 

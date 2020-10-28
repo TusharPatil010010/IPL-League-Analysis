@@ -26,7 +26,7 @@ public class CSVMostRuns {
 	public int ballsFaced;
 	
 	@CsvBindByName(column = "SR")
-	public float strikeRate;
+	public Double strikeRate;
 	
 	@CsvBindByName(column = "100")
 	public int hundreds;

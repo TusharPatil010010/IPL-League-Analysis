@@ -3,6 +3,8 @@ package com.ipl_analysis.POJO;
 import com.opencsv.bean.CsvBindByName;
 
 public class CSVMostWkts {
+	@CsvBindByName(column = "POS", required = true)
+	public int position;
 
 	@CsvBindByName(column = "Player")
 	public String playerName;
@@ -17,19 +19,19 @@ public class CSVMostWkts {
 	public double over;
 
 	@CsvBindByName(column = "Runs")
-	public int runs;
+	public int runsGiven;
 
 	@CsvBindByName(column = "Wkts")
 	public int wickets;
 
 	@CsvBindByName(column = "Avg")
-	public float avg;
+	public double bowlingAvg;
 
 	@CsvBindByName(column = "Econ")
-	public float economy;
+	public double economy;
 
 	@CsvBindByName(column = "SR")
-	public float strikeRate;
+	public double strikeRate;
 
 	@CsvBindByName(column = "4w")
 	public int fourWkts;
@@ -39,9 +41,10 @@ public class CSVMostWkts {
 
 	@Override
 	public String toString() {
-		return "CSVMostWkts [playerName=" + playerName + ", matches=" + matches + ", innings=" + innings + ", over="
-				+ over + ", runs=" + runs + ", wickets=" + wickets + ", avg=" + avg + ", economy=" + economy
-				+ ", strikeRate=" + strikeRate + ", fourWkts=" + fourWkts + ", fiveWkts=" + fiveWkts + "]";
+		return "CSVMostWkts [position=" + position + ", playerName=" + playerName + ", matches=" + matches
+				+ ", innings=" + innings + ", over=" + over + ", runsGiven=" + runsGiven + ", wickets=" + wickets
+				+ ", bowlingAvg=" + bowlingAvg + ", economy=" + economy + ", strikeRate=" + strikeRate + ", fourWkts="
+				+ fourWkts + ", fiveWkts=" + fiveWkts + "]";
 	}
 
 }
