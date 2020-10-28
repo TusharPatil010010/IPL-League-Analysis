@@ -17,6 +17,7 @@ public class MyComparators {
 			put(IPLLeagueAnalyser.CompareBasedOn.SIX_AND_FOURS, this.getSixAndFourComparator());
 			put(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE_WITH_BOUNDRIES, this.getSixAndFourSRComparator());
 			put(IPLLeagueAnalyser.CompareBasedOn.AVG_THEN_SR, this.getAvgWithSRComparator());
+			put(IPLLeagueAnalyser.CompareBasedOn.RUNS_THEN_AVG, this.getRunsWithAVGComparator());
 
 		}
 
@@ -31,13 +32,22 @@ public class MyComparators {
 							/ iplBatsmanData.ballsFaced), Comparator.reverseOrder());
 		}
 
-		protected Comparator<CSVMostRuns> getAvgWithSRComparator() {
+		private Comparator<CSVMostRuns> getAvgWithSRComparator() {
 
 			Comparator<CSVMostRuns> avg = Comparator.comparing(iplBatsmanData -> iplBatsmanData.avg,
 					Comparator.reverseOrder());
 			Comparator<CSVMostRuns> getAvgWithSRComparator = avg
 					.thenComparing(iplBatsmanData -> iplBatsmanData.strikeRate, Comparator.reverseOrder());
 			return getAvgWithSRComparator;
+		}
+
+		private Comparator<CSVMostRuns> getRunsWithAVGComparator() {
+
+			Comparator<CSVMostRuns> runs = Comparator.comparing(iplBatsmanData -> iplBatsmanData.runs,
+					Comparator.reverseOrder());
+			Comparator<CSVMostRuns> getRunsWithAVGComparator = runs.thenComparing(iplBatsmanData -> iplBatsmanData.avg,
+					Comparator.reverseOrder());
+			return getRunsWithAVGComparator;
 		}
 
 	};

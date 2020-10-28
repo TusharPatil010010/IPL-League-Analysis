@@ -113,7 +113,7 @@ public class IPLLeagueAnalyserTest {
 	}
 
 	/**
-	 * TC to check the sorting ny average and then by strike rate
+	 * TC to check the sorting by average and then by strike rate
 	 * 
 	 * @throws IOException
 	 * @throws CSVBuilderException
@@ -126,6 +126,23 @@ public class IPLLeagueAnalyserTest {
 		String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.AVG_THEN_SR);
 		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvg, CSVMostRuns[].class);
 		assertEquals("MS Dhoni", batsmenArray[0].playerName);
+
+	}
+
+	/**
+	 * TC to check the sorting by runs and then average
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenMostRunsCSV_AfterSortingByRunsThenAvg_shouldReturnFirstBatsman()
+			throws IOException, CSVBuilderException {
+
+		iplLeagueAnalyser.loadBattingData(MOST_RUNS_CSV);
+		String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(IPLLeagueAnalyser.CompareBasedOn.RUNS_THEN_AVG);
+		CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnAvg, CSVMostRuns[].class);
+		assertEquals(692, batsmenArray[0].runs);
 
 	}
 }
