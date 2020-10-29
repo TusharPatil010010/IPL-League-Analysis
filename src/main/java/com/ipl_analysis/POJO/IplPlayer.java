@@ -6,6 +6,7 @@ public class IplPlayer {
     public int runsScored;
     public Double averageScore;
     public Double battingStrikeRate;
+    public double bowlingStrikeRate;
     public int ballsFaced;
     public int fours;
     public int sixes;
@@ -30,6 +31,7 @@ public class IplPlayer {
     public IplPlayer(CSVMostWkts iplBowlerData) {
         this.playerName = iplBowlerData.playerName;
         this.bowlingAverage = iplBowlerData.bowlingAvg;
+        this.bowlingStrikeRate = iplBowlerData.strikeRate;
         this.bowlerData = iplBowlerData;
     }
 

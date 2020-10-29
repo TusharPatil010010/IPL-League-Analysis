@@ -55,15 +55,8 @@ public class IPLLeagueAnalyser {
 		ArrayList<IplPlayer> sortedList = this.playersList.values().stream()
 				.sorted(compareWith.comparators.get(comparingField)).collect(toCollection(ArrayList::new));
 		ArrayList sortedDatatoList = new ArrayList<>();
-		if (this.playerType.equals(PlayerType.BATSMAN)) {
-			for (IplPlayer batsman : sortedList) {
-				sortedDatatoList.add(batsman.getBatsmanData());
-			}
-		}
-		if (this.playerType.equals(PlayerType.BOWLER)) {
-			for (IplPlayer bowler : sortedList) {
-				sortedDatatoList.add(bowler.getBowlerData());
-			}
+		for (IplPlayer bowlerDao : sortedList) {
+			sortedDatatoList.add(this.playerType.getData(bowlerDao));
 		}
 		String sortedString = new Gson().toJson(sortedDatatoList);
 		return sortedString;

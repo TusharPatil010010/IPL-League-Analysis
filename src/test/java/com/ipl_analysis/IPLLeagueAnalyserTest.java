@@ -66,7 +66,6 @@ public class IPLLeagueAnalyserTest {
 			CSVMostRuns[] censusCSV = new Gson().fromJson(sortedCensusData, CSVMostRuns[].class);
 			assertEquals(83.2, censusCSV[0].avg, 0.0);
 		} catch (IPLLeagueAnalyserException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -177,12 +176,31 @@ public class IPLLeagueAnalyserTest {
 
 	}
 
+	/**
+	 * UC7 TC to check the sorting by bowling avg
+	 */
 	@Test
 	public void givenMostWktsCsvFile_AfterSortingBasedBowlingAvg_ShouldReturnFirstBowler() {
 		try {
 			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
 			String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.BOWLING_AVG);
 			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnAvg, CSVMostWkts[].class);
+			assertEquals("Krishnappa Gowtham", bowlerArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * UC8 TC to check the sorting by bowlers strike rate
+	 */
+	@Test
+	public void givenMostWktsCsvFile_AfterSortingBasedBowlingStrikeRate_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
+			String sortBasedOnStrikeRate = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.BOWLING_SR);
+			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnStrikeRate, CSVMostWkts[].class);
+			System.out.println(bowlerArray[0]);
 			assertEquals("Krishnappa Gowtham", bowlerArray[0].playerName);
 		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
