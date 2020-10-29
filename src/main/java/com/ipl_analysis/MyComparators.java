@@ -12,7 +12,7 @@ public class MyComparators {
 
 	public enum CompareBasedOn {
 		AVERAGE, STRIKE_RATE, SIX_AND_FOURS, STRIKE_RATE_WITH_BOUNDRIES, AVG_THEN_SR, RUNS_THEN_AVG, BOWLING_AVG,
-		BOWLING_SR, BOWLING_ECONOMY, BOWLING_AVG_WITH_4W_AND_5W
+		BOWLING_SR, BOWLING_ECONOMY, BOWLING_AVG_WITH_4W_AND_5W, BOWLING_SR_WITH_AVG
 	}
 
 	Comparator<IplPlayer> strikeRateComparator = Comparator.comparing(iplBatsman -> iplBatsman.battingStrikeRate,
@@ -49,6 +49,9 @@ public class MyComparators {
 			iplBowler -> (((iplBowler.fourWkts * 4) + (iplBowler.fiveWkts * 5)) / iplBowler.ballsBowled),
 			Comparator.reverseOrder());
 
+	Comparator<IplPlayer> bowlingSRWithAvg = Comparator
+			.comparing(iplBowler -> (iplBowler.bowlingAverage + iplBowler.bowlingStrikeRate));
+
 	public Map<Enum, Comparator<IplPlayer>> comparators = new HashMap<>();
 
 	public MyComparators() {
@@ -62,5 +65,6 @@ public class MyComparators {
 		this.comparators.put(CompareBasedOn.BOWLING_SR, this.bowlerStrikeRateComparator);
 		this.comparators.put(CompareBasedOn.BOWLING_ECONOMY, this.bowlingEconomyComparator);
 		this.comparators.put(CompareBasedOn.BOWLING_AVG_WITH_4W_AND_5W, this.bowlingStrikeRateWith4n5WComparator);
+		this.comparators.put(CompareBasedOn.BOWLING_SR_WITH_AVG, this.bowlingSRWithAvg);
 	}
 }

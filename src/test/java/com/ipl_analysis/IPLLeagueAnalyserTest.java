@@ -237,4 +237,20 @@ public class IPLLeagueAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * UC11 TC to check the sorting by bowlers with average and strike rate
+	 */
+	@Test
+	public void givenMostWktsCsvFile_AfterSortingBasedBowlingAvgWithSR_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
+			String sortBasedOnAvgWithSR = iplLeagueAnalyser
+					.sortBasedOn(MyComparators.CompareBasedOn.BOWLING_SR_WITH_AVG);
+			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnAvgWithSR, CSVMostWkts[].class);
+			assertEquals("Suresh Raina", bowlerArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
 }
