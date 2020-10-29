@@ -220,4 +220,21 @@ public class IPLLeagueAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * UC10 TC to check the sorting by bowlers strike rate with 4wickets and
+	 * 5wickets
+	 */
+	@Test
+	public void givenMostWktsCsvFile_AfterSortingBasedBowlingSRWith4wand5w_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
+			String sortBasedOnAvgWith4wAnd5w = iplLeagueAnalyser
+					.sortBasedOn(MyComparators.CompareBasedOn.BOWLING_AVG_WITH_4W_AND_5W);
+			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnAvgWith4wAnd5w, CSVMostWkts[].class);
+			assertEquals("Umesh Yadav", bowlerArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
 }
