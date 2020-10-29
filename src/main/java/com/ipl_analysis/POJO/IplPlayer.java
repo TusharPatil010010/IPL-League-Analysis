@@ -13,6 +13,7 @@ public class IplPlayer {
     public int fourWkts;
     public int fiveWkts;
     public int ballsBowled;
+    public int wickets;
     public double bowlingAverage;
     public double bowlingEconomy;
     public CSVMostRuns batsmanData;
@@ -39,8 +40,9 @@ public class IplPlayer {
         this.bowlingEconomy = iplBowlerData.economy;
         this.fourWkts = iplBowlerData.fourWkts;
         this.fiveWkts = iplBowlerData.fiveWkts;
-        this.bowlerData = iplBowlerData;
+        this.wickets = iplBowlerData.wickets;
         this.ballsBowled = (int) (Math.round(iplBowlerData.oversBowled)*6 + (iplBowlerData.oversBowled%6));
+        this.bowlerData = iplBowlerData;
     }
 
     public CSVMostRuns getBatsmanData() {
