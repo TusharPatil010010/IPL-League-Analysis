@@ -200,8 +200,22 @@ public class IPLLeagueAnalyserTest {
 			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
 			String sortBasedOnStrikeRate = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.BOWLING_SR);
 			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnStrikeRate, CSVMostWkts[].class);
-			System.out.println(bowlerArray[0]);
 			assertEquals("Krishnappa Gowtham", bowlerArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * UC9 TC to check the sorting by bowlers economy
+	 */
+	@Test
+	public void givenMostWktsCsvFile_AfterSortingBasedBowlingEconomy_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
+			String sortBasedOnEconomy = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.BOWLING_ECONOMY);
+			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnEconomy, CSVMostWkts[].class);
+			assertEquals("Ben Cutting", bowlerArray[0].playerName);
 		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
 		}

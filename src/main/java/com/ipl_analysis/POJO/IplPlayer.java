@@ -11,6 +11,7 @@ public class IplPlayer {
     public int fours;
     public int sixes;
     public double bowlingAverage;
+    public double bowlingEconomy;
     public CSVMostRuns batsmanData;
     public CSVMostWkts bowlerData;
 
@@ -32,6 +33,7 @@ public class IplPlayer {
         this.playerName = iplBowlerData.playerName;
         this.bowlingAverage = iplBowlerData.bowlingAvg;
         this.bowlingStrikeRate = iplBowlerData.strikeRate;
+        this.bowlingEconomy = iplBowlerData.economy;
         this.bowlerData = iplBowlerData;
     }
 

@@ -26,10 +26,10 @@ public class CSVMostWkts {
 	public double bowlingAvg;
 
 	@CsvBindByName(column = "Econ")
-	public float economy;
+	public double economy;
 
 	@CsvBindByName(column = "SR")
-	public float strikeRate;
+	public double strikeRate;
 
 	@CsvBindByName(column = "4w")
 	public int fourWkts;
