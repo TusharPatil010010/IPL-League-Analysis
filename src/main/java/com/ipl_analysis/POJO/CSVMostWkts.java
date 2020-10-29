@@ -23,7 +23,7 @@ public class CSVMostWkts {
 	public int wickets;
 
 	@CsvBindByName(column = "Avg")
-	public float avg;
+	public double bowlingAvg;
 
 	@CsvBindByName(column = "Econ")
 	public float economy;
@@ -40,7 +40,7 @@ public class CSVMostWkts {
 	@Override
 	public String toString() {
 		return "CSVMostWkts [playerName=" + playerName + ", matches=" + matches + ", innings=" + innings + ", over="
-				+ over + ", runs=" + runs + ", wickets=" + wickets + ", avg=" + avg + ", economy=" + economy
+				+ over + ", runs=" + runs + ", wickets=" + wickets + ", avg=" + bowlingAvg + ", economy=" + economy
 				+ ", strikeRate=" + strikeRate + ", fourWkts=" + fourWkts + ", fiveWkts=" + fiveWkts + "]";
 	}
 

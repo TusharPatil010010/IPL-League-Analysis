@@ -17,7 +17,7 @@ public class CSVMostRuns {
 	public int notOut;	
 	
 	@CsvBindByName(column = "Runs")
-	public int runs;
+	public int runsScored;
 	
 	@CsvBindByName(column = "Avg")
 	public double avg;
@@ -26,7 +26,7 @@ public class CSVMostRuns {
 	public int ballsFaced;
 	
 	@CsvBindByName(column = "SR")
-	public float strikeRate;
+	public double strikeRate;
 	
 	@CsvBindByName(column = "100")
 	public int hundreds;
@@ -43,7 +43,7 @@ public class CSVMostRuns {
 	@Override
 	public String toString() {
 		return "CSVMostRuns [playerName=" + playerName + ", matches=" + matches + ", innings=" + innings + ", notOut="
-				+ notOut + ", runs=" + runs + ", avg=" + avg + ", ballsFaced=" + ballsFaced + ", strikeRate="
+				+ notOut + ", runs=" + runsScored + ", avg=" + avg + ", ballsFaced=" + ballsFaced + ", strikeRate="
 				+ strikeRate + ", hundreds=" + hundreds + ", fifties=" + fifties + ", fours=" + fours + ", sixes="
 				+ sixes + "]";
 	}

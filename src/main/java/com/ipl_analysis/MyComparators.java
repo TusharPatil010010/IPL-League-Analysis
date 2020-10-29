@@ -4,52 +4,53 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ipl_analysis.POJO.*;
+import com.ipl_analysis.POJO.IplPlayer;
 
 public class MyComparators {
+	
+	public enum CompareBasedOn {
+		AVERAGE, STRIKE_RATE, SIX_AND_FOURS, STRIKE_RATE_WITH_BOUNDRIES, AVG_THEN_SR, RUNS_THEN_AVG
+	, BOWLING_AVG}
 
-	public static Map<Enum, Comparator<CSVMostRuns>> comparators = new HashMap<Enum, Comparator<CSVMostRuns>>() {
-		{
-			put(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE,
-					Comparator.comparing(iplBatsmanData -> iplBatsmanData.strikeRate, Comparator.reverseOrder()));
-			put(IPLLeagueAnalyser.CompareBasedOn.AVERAGE,
-					Comparator.comparing(iplBatsmanData -> iplBatsmanData.avg, Comparator.reverseOrder()));
-			put(IPLLeagueAnalyser.CompareBasedOn.SIX_AND_FOURS, this.getSixAndFourComparator());
-			put(IPLLeagueAnalyser.CompareBasedOn.STRIKE_RATE_WITH_BOUNDRIES, this.getSixAndFourSRComparator());
-			put(IPLLeagueAnalyser.CompareBasedOn.AVG_THEN_SR, this.getAvgWithSRComparator());
-			put(IPLLeagueAnalyser.CompareBasedOn.RUNS_THEN_AVG, this.getRunsWithAVGComparator());
+	 Comparator<IplPlayer> strikeRateComparator = Comparator.comparing(iplBatsman -> iplBatsman.battingStrikeRate,Comparator.reverseOrder());
 
-		}
+    Comparator<IplPlayer> runsAverageComparator = Comparator.comparing(iplBatsman -> iplBatsman.averageScore,Comparator.reverseOrder());
 
-		private Comparator<CSVMostRuns> getSixAndFourComparator() {
-			return Comparator.comparing(iplBatsmanData -> (iplBatsmanData.fours * 4) + (iplBatsmanData.sixes * 6),
-					Comparator.reverseOrder());
-		}
+    Comparator<IplPlayer> sixesAndFoursComparator =
+            Comparator.comparing(iplBatsman -> (iplBatsman.sixes*6)+(iplBatsman.fours*4)
+                    ,Comparator.reverseOrder());
 
-		private Comparator<CSVMostRuns> getSixAndFourSRComparator() {
-			return Comparator
-					.comparing(iplBatsmanData -> ((((iplBatsmanData.fours * 4) + (iplBatsmanData.sixes * 6)) * 100)
-							/ iplBatsmanData.ballsFaced), Comparator.reverseOrder());
-		}
+    Comparator<IplPlayer> strikeRateWithBoundriesComparator =
+            Comparator.comparing(iplBatsman ->
+                    ((((iplBatsman.batsmanData.fours*4)+(iplBatsman.batsmanData.sixes*6))*100)
+                            /iplBatsman.batsmanData.ballsFaced), Comparator.reverseOrder());
 
-		private Comparator<CSVMostRuns> getAvgWithSRComparator() {
+    Comparator<IplPlayer> avg =Comparator.comparing(iplBatsman -> iplBatsman.averageScore,Comparator.reverseOrder());
+    Comparator<IplPlayer> avgWithStrikeRateComparator = avg.thenComparing(iplBatsman -> iplBatsman.battingStrikeRate,Comparator.reverseOrder());
 
-			Comparator<CSVMostRuns> avg = Comparator.comparing(iplBatsmanData -> iplBatsmanData.avg,
-					Comparator.reverseOrder());
-			Comparator<CSVMostRuns> getAvgWithSRComparator = avg
-					.thenComparing(iplBatsmanData -> iplBatsmanData.strikeRate, Comparator.reverseOrder());
-			return getAvgWithSRComparator;
-		}
+    Comparator<IplPlayer> runs =Comparator.comparing(iplBatsman -> iplBatsman.runsScored,Comparator.reverseOrder());
+    Comparator<IplPlayer> runsThenAverageComparator = runs.thenComparing(iplBatsman -> iplBatsman.averageScore,Comparator.reverseOrder());
 
-		private Comparator<CSVMostRuns> getRunsWithAVGComparator() {
+    Comparator<IplPlayer> bowlerAvg = Comparator.comparing(iplPlayer -> iplPlayer.bowlingAverage);
 
-			Comparator<CSVMostRuns> runs = Comparator.comparing(iplBatsmanData -> iplBatsmanData.runs,
-					Comparator.reverseOrder());
-			Comparator<CSVMostRuns> getRunsWithAVGComparator = runs.thenComparing(iplBatsmanData -> iplBatsmanData.avg,
-					Comparator.reverseOrder());
-			return getRunsWithAVGComparator;
-		}
+    public Map<Enum, Comparator<IplPlayer>> comparators = new HashMap<>();
 
-	};
-
+    public MyComparators() {
+        this.comparators.put(CompareBasedOn.STRIKE_RATE,
+                this.strikeRateComparator);
+        this.comparators.put(CompareBasedOn.AVERAGE,
+                this.runsAverageComparator);
+        this.comparators.put(CompareBasedOn.SIX_AND_FOURS,
+                this.sixesAndFoursComparator);
+        this.comparators.put(CompareBasedOn.STRIKE_RATE_WITH_BOUNDRIES,
+                this.strikeRateWithBoundriesComparator);
+        this.comparators.put(CompareBasedOn.AVG_THEN_SR,
+                this.avgWithStrikeRateComparator);
+        this.comparators.put(CompareBasedOn.RUNS_THEN_AVG,
+                this.runsThenAverageComparator);
+        this.comparators.put(CompareBasedOn.BOWLING_AVG,
+                this.bowlerAvg);
+    }
 }
+
+
