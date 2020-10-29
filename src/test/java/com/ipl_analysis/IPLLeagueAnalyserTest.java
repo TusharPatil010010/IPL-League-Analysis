@@ -30,7 +30,7 @@ public class IPLLeagueAnalyserTest {
 		int count;
 		try {
 			count = iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
-			assertEquals(101, count);
+			assertEquals(100, count);
 		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
 		}
@@ -46,8 +46,7 @@ public class IPLLeagueAnalyserTest {
 		int count;
 		try {
 			count = iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
-			System.out.println(count);
-			assertEquals(101, count);
+			assertEquals(99, count);
 		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
 		}
@@ -85,7 +84,7 @@ public class IPLLeagueAnalyserTest {
 			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
 			String sortedCSVData = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.STRIKE_RATE);
 			CSVMostRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVMostRuns[].class);
-			assertEquals(333.33f, iplCSV[0].strikeRate, 0.0);
+			assertEquals("Ishant Sharma", iplCSV[0].playerName);
 		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
 		}
@@ -176,5 +175,17 @@ public class IPLLeagueAnalyserTest {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Test
+	public void givenMostWktsCsvFile_AfterSortingBasedBowlingAvg_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_WKTS_CSV);
+			String sortBasedOnAvg = iplLeagueAnalyser.sortBasedOn(MyComparators.CompareBasedOn.BOWLING_AVG);
+			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnAvg, CSVMostWkts[].class);
+			assertEquals("Krishnappa Gowtham", bowlerArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
 	}
 }

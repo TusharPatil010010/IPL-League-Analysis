@@ -26,17 +26,30 @@ public class IPLLeagueAnalyser {
 	public Map<String, IplPlayer> playersList;
 
 	public IPLLeagueAnalyser() {
-        this.playersList = new HashMap<>();
-    }
+		this.playersList = new HashMap<>();
+	}
 
-	public int loadDataFromCsv(PlayerType playerType, String csvFilePath)
-			throws IPLLeagueAnalyserException {
+	/**
+	 * Loads data from CSV
+	 * 
+	 * @param playerType
+	 * @param csvFilePath
+	 * @return
+	 * @throws IPLLeagueAnalyserException
+	 */
+	public int loadDataFromCsv(PlayerType playerType, String csvFilePath) throws IPLLeagueAnalyserException {
 		this.playerType = playerType;
 		CsvFileLoader csvFileLoader = FileLoaderFactory.getAdapter(playerType);
 		this.playersList = csvFileLoader.loadCsv(csvFilePath);
 		return playersList.size();
 	}
 
+	/**
+	 * Sorts data based on comparators
+	 * 
+	 * @param comparingField
+	 * @return
+	 */
 	public String sortBasedOn(MyComparators.CompareBasedOn comparingField) {
 		MyComparators compareWith = new MyComparators();
 		ArrayList<IplPlayer> sortedList = this.playersList.values().stream()

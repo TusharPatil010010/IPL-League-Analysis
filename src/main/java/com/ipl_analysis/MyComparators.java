@@ -31,7 +31,7 @@ public class MyComparators {
     Comparator<IplPlayer> runs =Comparator.comparing(iplBatsman -> iplBatsman.runsScored,Comparator.reverseOrder());
     Comparator<IplPlayer> runsThenAverageComparator = runs.thenComparing(iplBatsman -> iplBatsman.averageScore,Comparator.reverseOrder());
 
-    Comparator<IplPlayer> bowlerAvg = Comparator.comparing(iplPlayer -> iplPlayer.bowlingAverage);
+    Comparator<IplPlayer> bowlerAvg = Comparator.comparing(iplBowler -> iplBowler.bowlingAverage, Comparator.reverseOrder());
 
     public Map<Enum, Comparator<IplPlayer>> comparators = new HashMap<>();
 

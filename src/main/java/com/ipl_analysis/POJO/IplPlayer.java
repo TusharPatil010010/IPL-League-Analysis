@@ -3,13 +3,13 @@ package com.ipl_analysis.POJO;
 public class IplPlayer {
 
     public String playerName;
-    public int runsScored=0;
-    public Double averageScore=0.0;
-    public Double battingStrikeRate=0.0;
-    public int ballsFaced=0;
-    public int fours=0;
-    public int sixes=0;
-    public double bowlingAverage=99;
+    public int runsScored;
+    public Double averageScore;
+    public Double battingStrikeRate;
+    public int ballsFaced;
+    public int fours;
+    public int sixes;
+    public double bowlingAverage;
     public CSVMostRuns batsmanData;
     public CSVMostWkts bowlerData;
 
