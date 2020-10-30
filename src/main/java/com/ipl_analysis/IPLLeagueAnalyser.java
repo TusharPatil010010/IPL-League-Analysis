@@ -37,7 +37,7 @@ public class IPLLeagueAnalyser {
 	 * @return
 	 * @throws IPLLeagueAnalyserException
 	 */
-	public int loadDataFromCsv(PlayerType playerType, String csvFilePath) throws IPLLeagueAnalyserException {
+	public int loadDataFromCsv(PlayerType playerType, String... csvFilePath) throws IPLLeagueAnalyserException {
 		this.playerType = playerType;
 		CsvFileLoader csvFileLoader = FileLoaderFactory.getAdapter(playerType);
 		this.playersList = csvFileLoader.loadCsv(csvFilePath);
@@ -55,8 +55,8 @@ public class IPLLeagueAnalyser {
 		ArrayList<IplPlayer> sortedList = this.playersList.values().stream()
 				.sorted(compareWith.comparators.get(comparingField)).collect(toCollection(ArrayList::new));
 		ArrayList sortedDatatoList = new ArrayList<>();
-		for (IplPlayer bowlerDao : sortedList) {
-			sortedDatatoList.add(this.playerType.getData(bowlerDao));
+		for (IplPlayer playerData : sortedList) {
+			sortedDatatoList.add(this.playerType.getData(playerData));
 		}
 		String sortedString = new Gson().toJson(sortedDatatoList);
 		return sortedString;

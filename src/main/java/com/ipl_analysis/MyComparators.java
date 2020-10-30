@@ -12,13 +12,14 @@ public class MyComparators {
 
 	public enum CompareBasedOn {
 		AVERAGE, STRIKE_RATE, SIX_AND_FOURS, STRIKE_RATE_WITH_BOUNDRIES, AVG_THEN_SR, RUNS_THEN_AVG, BOWLING_AVG,
-		BOWLING_SR, BOWLING_ECONOMY, BOWLING_AVG_WITH_4W_AND_5W, BOWLING_SR_WITH_AVG, WICKETS_WITH_BOWLING_AVG
+		BOWLING_SR, BOWLING_ECONOMY, BOWLING_AVG_WITH_4W_AND_5W, BOWLING_SR_WITH_AVG, WICKETS_WITH_BOWLING_AVG,
+		BEST_BATTING_AND_BOWLING_AVG
 	}
 
 	Comparator<IplPlayer> strikeRateComparator = Comparator.comparing(iplBatsman -> iplBatsman.battingStrikeRate,
 			Comparator.reverseOrder());
 
-	Comparator<IplPlayer> runsAverageComparator = Comparator.comparing(iplBatsman -> iplBatsman.averageScore,
+	Comparator<IplPlayer> runsAverageComparator = Comparator.comparing(iplBatsman -> iplBatsman.battingAverage,
 			Comparator.reverseOrder());
 
 	Comparator<IplPlayer> sixesAndFoursComparator = Comparator
@@ -28,12 +29,12 @@ public class MyComparators {
 			.comparing(iplBatsman -> ((((iplBatsman.batsmanData.fours * 4) + (iplBatsman.batsmanData.sixes * 6)) * 100)
 					/ iplBatsman.batsmanData.ballsFaced), Comparator.reverseOrder());
 
-	Comparator<IplPlayer> avg = Comparator.comparing(iplBatsman -> iplBatsman.averageScore, Comparator.reverseOrder());
+	Comparator<IplPlayer> avg = Comparator.comparing(iplBatsman -> iplBatsman.battingAverage, Comparator.reverseOrder());
 	Comparator<IplPlayer> avgWithStrikeRateComparator = avg.thenComparing(iplBatsman -> iplBatsman.battingStrikeRate,
 			Comparator.reverseOrder());
 
 	Comparator<IplPlayer> runs = Comparator.comparing(iplBatsman -> iplBatsman.runsScored, Comparator.reverseOrder());
-	Comparator<IplPlayer> runsThenAverageComparator = runs.thenComparing(iplBatsman -> iplBatsman.averageScore,
+	Comparator<IplPlayer> runsThenAverageComparator = runs.thenComparing(iplBatsman -> iplBatsman.battingAverage,
 			Comparator.reverseOrder());
 
 	Comparator<IplPlayer> bowlerAvg = Comparator.comparing(iplBowler -> iplBowler.bowlingAverage,
@@ -55,6 +56,9 @@ public class MyComparators {
 	Comparator<IplPlayer> bowlingWktsWithAvg = Comparator
 			.comparing(iplBowler -> (iplBowler.wickets / iplBowler.bowlingAverage), Comparator.reverseOrder());
 
+	Comparator<IplPlayer> bestAllRounderAvg = Comparator
+			.comparing(iplPlayer -> (iplPlayer.battingAverage / iplPlayer.bowlingAverage), Comparator.reverseOrder());
+
 	public Map<Enum, Comparator<IplPlayer>> comparators = new HashMap<>();
 
 	public MyComparators() {
@@ -70,5 +74,6 @@ public class MyComparators {
 		this.comparators.put(CompareBasedOn.BOWLING_AVG_WITH_4W_AND_5W, this.bowlingStrikeRateWith4n5WComparator);
 		this.comparators.put(CompareBasedOn.BOWLING_SR_WITH_AVG, this.bowlingSRWithAvg);
 		this.comparators.put(CompareBasedOn.WICKETS_WITH_BOWLING_AVG, this.bowlingWktsWithAvg);
+		this.comparators.put(CompareBasedOn.BEST_BATTING_AND_BOWLING_AVG, this.bestAllRounderAvg);
 	}
 }

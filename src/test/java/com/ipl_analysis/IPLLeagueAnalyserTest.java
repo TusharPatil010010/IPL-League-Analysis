@@ -264,7 +264,23 @@ public class IPLLeagueAnalyserTest {
 			String sortBasedOnWktsWithAvg = iplLeagueAnalyser
 					.sortBasedOn(MyComparators.CompareBasedOn.WICKETS_WITH_BOWLING_AVG);
 			CSVMostWkts[] bowlerArray = new Gson().fromJson(sortBasedOnWktsWithAvg, CSVMostWkts[].class);
-			assertEquals("Suresh Raina", bowlerArray[0].playerName);
+			assertEquals("Imran Tahir", bowlerArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * UC13 TC to check the sorting by best batting and bowling averages
+	 */
+	@Test
+	public void givenMostWktsCsvFile_AfterSortingByBestBowlingAndBattingAverage_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_RUNS_CSV, MOST_WKTS_CSV);
+			String sortBasedOnBowlingAndBattingAvg = iplLeagueAnalyser
+					.sortBasedOn(MyComparators.CompareBasedOn.BEST_BATTING_AND_BOWLING_AVG);
+			AllRounder[] allRounderArray = new Gson().fromJson(sortBasedOnBowlingAndBattingAvg, AllRounder[].class);
+			assertEquals("Andre Russell", allRounderArray[0].playerName);
 		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
 		}

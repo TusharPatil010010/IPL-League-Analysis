@@ -19,7 +19,7 @@ import com.ipl_analysis.POJO.IplPlayer;
 
 public abstract class CsvFileLoader {
 
-	public abstract Map<String, IplPlayer> loadCsv(String csvFilePath) throws IPLLeagueAnalyserException;
+	public abstract Map<String, IplPlayer> loadCsv(String[] csvFilePath) throws IPLLeagueAnalyserException;
 
 	Reader reader = null;
 

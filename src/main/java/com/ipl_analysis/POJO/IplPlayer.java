@@ -4,7 +4,7 @@ public class IplPlayer {
 
     public String playerName;
     public int runsScored;
-    public Double averageScore;
+    public Double battingAverage = 0.0;
     public Double battingStrikeRate;
     public double bowlingStrikeRate;
     public int ballsFaced;
@@ -14,7 +14,7 @@ public class IplPlayer {
     public int fiveWkts;
     public int ballsBowled;
     public int wickets;
-    public double bowlingAverage;
+    public double bowlingAverage = 99.0;
     public double bowlingEconomy;
     public CSVMostRuns batsmanData;
     public CSVMostWkts bowlerData;
@@ -25,7 +25,7 @@ public class IplPlayer {
     public IplPlayer(CSVMostRuns batsmanData) {
         this.playerName = batsmanData.playerName;
         this.runsScored = batsmanData.runsScored;
-        this.averageScore = batsmanData.avg;
+        this.battingAverage = batsmanData.avg;
         this.battingStrikeRate = batsmanData.strikeRate;
         this.ballsFaced = batsmanData.ballsFaced;
         this.fours = batsmanData.fours;
