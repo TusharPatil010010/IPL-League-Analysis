@@ -40,6 +40,13 @@ public class BowlerFileLoader extends CsvFileLoader {
 			return;
 		}
 		iplPlayer.bowlingAverage = iplBowlerData.bowlingAvg;
+		iplPlayer.bowlingStrikeRate = iplBowlerData.strikeRate;
+		iplPlayer.bowlingEconomy = iplBowlerData.economy;
+		iplPlayer.fourWkts = iplBowlerData.fourWkts;
+		iplPlayer.fiveWkts = iplBowlerData.fiveWkts;
+		iplPlayer.wickets = Math.max(iplPlayer.wickets, iplBowlerData.wickets);
+		iplPlayer.ballsBowled = (int) (Math.round(iplBowlerData.oversBowled) * 6
+				+ ((iplBowlerData.oversBowled * 10) % 10));
 		iplPlayer.bowlerData = iplBowlerData;
 	}
 }

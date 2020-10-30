@@ -276,7 +276,7 @@ public class IPLLeagueAnalyserTest {
 	@Test
 	public void givenMostWktsCsvFile_AfterSortingByBestBowlingAndBattingAverage_ShouldReturnFirstBowler() {
 		try {
-			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_RUNS_CSV, MOST_WKTS_CSV);
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOTH, MOST_RUNS_CSV, MOST_WKTS_CSV);
 			String sortBasedOnBowlingAndBattingAvg = iplLeagueAnalyser
 					.sortBasedOn(MyComparators.CompareBasedOn.BEST_BATTING_AND_BOWLING_AVG);
 			AllRounder[] allRounderArray = new Gson().fromJson(sortBasedOnBowlingAndBattingAvg, AllRounder[].class);
@@ -292,11 +292,27 @@ public class IPLLeagueAnalyserTest {
 	@Test
 	public void givenCsvFile_AfterSortingByBestAllRounder_ShouldReturnFirstBowler() {
 		try {
-			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_RUNS_CSV, MOST_WKTS_CSV);
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOTH, MOST_RUNS_CSV, MOST_WKTS_CSV);
 			String sortBasedOnBowlingAndBattingAvg = iplLeagueAnalyser
 					.sortBasedOn(MyComparators.CompareBasedOn.BEST_ALL_ROUNDER);
 			AllRounder[] allRounderArray = new Gson().fromJson(sortBasedOnBowlingAndBattingAvg, AllRounder[].class);
 			assertEquals("Andre Russell", allRounderArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * UC15 TC to check the sorting by most hundreds and average
+	 */
+	@Test
+	public void givenCsvFile_AfterSortingByHundredsAndAvgr_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BATSMAN, MOST_RUNS_CSV);
+			String sortBasedOnBowlingAndBattingAvg = iplLeagueAnalyser
+					.sortBasedOn(MyComparators.CompareBasedOn.MAX_HUNDREDS_WITH_RUNS);
+			CSVMostRuns[] batsmenArray = new Gson().fromJson(sortBasedOnBowlingAndBattingAvg, CSVMostRuns[].class);
+			assertEquals("Andre Russell", batsmenArray[0].playerName);
 		} catch (IPLLeagueAnalyserException e) {
 			e.printStackTrace();
 		}
