@@ -13,8 +13,8 @@ import com.ipl_analysis.POJO.*;
 
 public class IPLLeagueAnalyserTest {
 	IPLLeagueAnalyser iplLeagueAnalyser;
-	private static final String MOST_RUNS_CSV = "C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\MostRuns.csv";
-	private static final String MOST_WKTS_CSV = "C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\MostWkts.csv";
+	private static final String MOST_RUNS_CSV = "C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\batting.csv";
+	private static final String MOST_WKTS_CSV = "C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\bowling.csv";
 
 	@Before
 	public void setUp() {
@@ -279,6 +279,22 @@ public class IPLLeagueAnalyserTest {
 			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_RUNS_CSV, MOST_WKTS_CSV);
 			String sortBasedOnBowlingAndBattingAvg = iplLeagueAnalyser
 					.sortBasedOn(MyComparators.CompareBasedOn.BEST_BATTING_AND_BOWLING_AVG);
+			AllRounder[] allRounderArray = new Gson().fromJson(sortBasedOnBowlingAndBattingAvg, AllRounder[].class);
+			assertEquals("Andre Russell", allRounderArray[0].playerName);
+		} catch (IPLLeagueAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * UC14 TC to check the sorting by best all rounder
+	 */
+	@Test
+	public void givenCsvFile_AfterSortingByBestAllRounder_ShouldReturnFirstBowler() {
+		try {
+			iplLeagueAnalyser.loadDataFromCsv(PlayerType.BOWLER, MOST_RUNS_CSV, MOST_WKTS_CSV);
+			String sortBasedOnBowlingAndBattingAvg = iplLeagueAnalyser
+					.sortBasedOn(MyComparators.CompareBasedOn.BEST_ALL_ROUNDER);
 			AllRounder[] allRounderArray = new Gson().fromJson(sortBasedOnBowlingAndBattingAvg, AllRounder[].class);
 			assertEquals("Andre Russell", allRounderArray[0].playerName);
 		} catch (IPLLeagueAnalyserException e) {

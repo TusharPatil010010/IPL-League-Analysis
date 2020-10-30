@@ -26,7 +26,7 @@ public abstract class CsvFileLoader {
 	public <E> Iterable<E> getCsvIterable(Class<E> clazz, String csvFilePath) throws IPLLeagueAnalyserException {
 
 		try {
-			this.reader = Files.newBufferedReader(Paths.get(csvFilePath));
+			this.reader = Files.newBufferedReader(Paths.get("C:\\Users\\LENOVO\\eclipse-workspace\\ipl_analysis\\src\\main\\resources\\readable.csv"));
 			ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
 			Iterator<E> iplIterator = csvBuilder.getCSVFileIterator(reader, clazz);
 			Iterable<E> iplIterable = () -> iplIterator;
